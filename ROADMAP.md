@@ -30,17 +30,19 @@
 - [x] Set up navigation (Auth stack ↔ Main tabs based on session)
 - [x] Applied Plateo branding (green `#22c55e`, Spanish UI)
 - [x] Initialized git repository
+- [x] Pushed to GitHub: https://github.com/mauba/plateo-app
 
 ---
 
 ## Next Steps
 
 ### Phase 1: Environment Setup (Week 1-2)
-- [ ] Create Supabase project at https://supabase.com
-- [ ] Copy URL and anon key to `.env` file
-- [ ] Run app locally with `pnpm start` and test on phone via Expo Go
-- [ ] Test registration and login flow
+- [x] Create Supabase project at https://supabase.com
+- [x] Copy URL and anon key to `.env` file
+- [x] Run app locally with `pnpm start` and test on phone via Expo Go
+- [x] Test registration and login flow
 - [ ] Enable email confirmation in Supabase (optional for dev)
+- [ ] Fix confirmation email redirect URL — Supabase is configured with `http://localhost:3000` as the redirect, which is invalid for a mobile app. Needs a deep link URL scheme (e.g. `plateo://auth/confirm`) configured in both Supabase (Authentication → URL Configuration) and the Expo app (`app.json` scheme).
 
 ### Phase 2: Recipe Search (Week 3-5)
 - [ ] Sign up for Spoonacular API at https://spoonacular.com/food-api
