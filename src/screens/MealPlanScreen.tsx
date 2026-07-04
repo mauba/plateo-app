@@ -1,14 +1,15 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { colors, spacing, fontSize } from '../constants/theme';
+import { useLocale } from '../i18n';
 
 export function MealPlanScreen() {
+  const { t } = useLocale();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Plan de Comidas</Text>
+      <Text style={styles.title}>{t.mealPlan_title}</Text>
       <View style={styles.placeholder}>
-        <Text style={styles.placeholderText}>
-          Aquí podrás ver y editar tu plan de comidas semanal
-        </Text>
+        <Text style={styles.placeholderText}>{t.mealPlan_placeholder}</Text>
       </View>
     </View>
   );

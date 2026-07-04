@@ -13,17 +13,19 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { supabase } from '../services/supabase';
 import { colors, spacing, fontSize } from '../constants/theme';
 import { AuthStackParamList } from '../types/navigation';
+import { useLocale } from '../i18n';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
 export function LoginScreen({ navigation }: Props) {
+  const { t } = useLocale();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   async function handleLogin() {
     if (!email || !password) {
-      Alert.alert('Error', 'Por favor completa todos los campos');
+      Alert.alert(t.common_error, t.login_errorEmptyFields);
       return;
     }
 
@@ -34,7 +36,7 @@ export function LoginScreen({ navigation }: Props) {
     });
 
     if (error) {
-      Alert.alert('Error', error.message);
+      Alert.alert(t.common_error, error.message);
     }
     setLoading(false);
   }
@@ -46,12 +48,12 @@ export function LoginScreen({ navigation }: Props) {
     >
       <View style={styles.content}>
         <Text style={styles.logo}>Plateo</Text>
-        <Text style={styles.subtitle}>Planificación de comidas inteligente</Text>
+        <Text style={styles.subtitle}>{t.login_subtitle}</Text>
 
         <View style={styles.form}>
           <TextInput
             style={styles.input}
-            placeholder="Correo electrónico"
+            placeholder={t.login_emailPlaceholder}
             value={email}
             onChangeText={setEmail}
             autoCapitalize="none"
@@ -60,7 +62,7 @@ export function LoginScreen({ navigation }: Props) {
           />
           <TextInput
             style={styles.input}
-            placeholder="Contraseña"
+            placeholder={t.login_passwordPlaceholder}
             value={password}
             onChangeText={setPassword}
             secureTextEntry
@@ -73,7 +75,7 @@ export function LoginScreen({ navigation }: Props) {
             disabled={loading}
           >
             <Text style={styles.buttonText}>
-              {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+              {loading ? t.login_buttonLoading : t.login_button}
             </Text>
           </TouchableOpacity>
 
@@ -82,7 +84,8 @@ export function LoginScreen({ navigation }: Props) {
             onPress={() => navigation.navigate('Register')}
           >
             <Text style={styles.linkText}>
-              ¿No tienes cuenta? <Text style={styles.linkTextBold}>Regístrate</Text>
+              {t.login_noAccount}{' '}
+              <Text style={styles.linkTextBold}>{t.login_registerLink}</Text>
             </Text>
           </TouchableOpacity>
         </View>

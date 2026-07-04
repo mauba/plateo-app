@@ -18,6 +18,16 @@
 
 ---
 
+## Completed (2026-07-04)
+
+### Session 2: i18n & Environment
+- [x] Linked app to Plateo Expo organisation
+- [x] Set up Supabase project and wired `.env` credentials
+- [x] Verified registration and login flow in simulator
+- [x] Added runtime language switching (EN/ES) via custom `LocaleProvider` + `useLocale()` hook
+- [x] All UI strings extracted to `src/i18n/en.ts` (canonical) and `src/i18n/es.ts` (translation)
+- [x] Language preference persisted in SecureStore across app restarts
+
 ## Completed (2025-07-01)
 
 ### Session 1: Project Setup
@@ -45,7 +55,7 @@
 - [ ] Fix confirmation email redirect URL — Supabase is configured with `http://localhost:3000` as the redirect, which is invalid for a mobile app. Needs a deep link URL scheme (e.g. `plateo://auth/confirm`) configured in both Supabase (Authentication → URL Configuration) and the Expo app (`app.json` scheme).
 
 ### Phase 2: Recipe Search (Week 3-5)
-- [ ] Sign up for Spoonacular API at https://spoonacular.com/food-api
+- [x] Sign up for Spoonacular API at https://spoonacular.com/food-api
 - [ ] Create recipe search screen
 - [ ] Display recipe cards with image, title, nutrition summary
 - [ ] Add recipe detail view (ingredients, instructions, nutrition)

@@ -1,15 +1,16 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { colors, spacing, fontSize } from '../constants/theme';
+import { useLocale } from '../i18n';
 
 export function HomeScreen() {
+  const { t } = useLocale();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.greeting}>¡Bienvenido a Plateo!</Text>
-      <Text style={styles.subtitle}>Tu asistente de planificación de comidas</Text>
+      <Text style={styles.greeting}>{t.home_greeting}</Text>
+      <Text style={styles.subtitle}>{t.home_subtitle}</Text>
       <View style={styles.placeholder}>
-        <Text style={styles.placeholderText}>
-          Aquí verás tus próximas comidas y sugerencias personalizadas
-        </Text>
+        <Text style={styles.placeholderText}>{t.home_placeholder}</Text>
       </View>
     </View>
   );

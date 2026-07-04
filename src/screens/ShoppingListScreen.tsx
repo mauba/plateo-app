@@ -1,14 +1,15 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { colors, spacing, fontSize } from '../constants/theme';
+import { useLocale } from '../i18n';
 
 export function ShoppingListScreen() {
+  const { t } = useLocale();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Lista de Compras</Text>
+      <Text style={styles.title}>{t.shopping_title}</Text>
       <View style={styles.placeholder}>
-        <Text style={styles.placeholderText}>
-          Aquí verás tu lista de compras generada automáticamente
-        </Text>
+        <Text style={styles.placeholderText}>{t.shopping_placeholder}</Text>
       </View>
     </View>
   );

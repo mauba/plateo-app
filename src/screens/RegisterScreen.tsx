@@ -14,10 +14,12 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { supabase } from '../services/supabase';
 import { colors, spacing, fontSize } from '../constants/theme';
 import { AuthStackParamList } from '../types/navigation';
+import { useLocale } from '../i18n';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Register'>;
 
 export function RegisterScreen({ navigation }: Props) {
+  const { t } = useLocale();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -25,17 +27,17 @@ export function RegisterScreen({ navigation }: Props) {
 
   async function handleRegister() {
     if (!email || !password || !confirmPassword) {
-      Alert.alert('Error', 'Por favor completa todos los campos');
+      Alert.alert(t.common_error, t.register_errorEmptyFields);
       return;
     }
 
     if (password !== confirmPassword) {
-      Alert.alert('Error', 'Las contraseñas no coinciden');
+      Alert.alert(t.common_error, t.register_errorPasswordMismatch);
       return;
     }
 
     if (password.length < 6) {
-      Alert.alert('Error', 'La contraseña debe tener al menos 6 caracteres');
+      Alert.alert(t.common_error, t.register_errorPasswordLength);
       return;
     }
 
@@ -46,12 +48,12 @@ export function RegisterScreen({ navigation }: Props) {
     });
 
     if (error) {
-      Alert.alert('Error', error.message);
+      Alert.alert(t.common_error, error.message);
     } else {
       Alert.alert(
-        'Registro exitoso',
-        'Te hemos enviado un correo de confirmación. Por favor revisa tu bandeja de entrada.',
-        [{ text: 'OK', onPress: () => navigation.navigate('Login') }]
+        t.register_successTitle,
+        t.register_successMessage,
+        [{ text: t.common_ok, onPress: () => navigation.navigate('Login') }]
       );
     }
     setLoading(false);
@@ -65,12 +67,12 @@ export function RegisterScreen({ navigation }: Props) {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.content}>
           <Text style={styles.logo}>Plateo</Text>
-          <Text style={styles.subtitle}>Crea tu cuenta</Text>
+          <Text style={styles.subtitle}>{t.register_subtitle}</Text>
 
           <View style={styles.form}>
             <TextInput
               style={styles.input}
-              placeholder="Correo electrónico"
+              placeholder={t.register_emailPlaceholder}
               value={email}
               onChangeText={setEmail}
               autoCapitalize="none"
@@ -79,7 +81,7 @@ export function RegisterScreen({ navigation }: Props) {
             />
             <TextInput
               style={styles.input}
-              placeholder="Contraseña"
+              placeholder={t.register_passwordPlaceholder}
               value={password}
               onChangeText={setPassword}
               secureTextEntry
@@ -87,7 +89,7 @@ export function RegisterScreen({ navigation }: Props) {
             />
             <TextInput
               style={styles.input}
-              placeholder="Confirmar contraseña"
+              placeholder={t.register_confirmPasswordPlaceholder}
               value={confirmPassword}
               onChangeText={setConfirmPassword}
               secureTextEntry
@@ -100,7 +102,7 @@ export function RegisterScreen({ navigation }: Props) {
               disabled={loading}
             >
               <Text style={styles.buttonText}>
-                {loading ? 'Registrando...' : 'Crear cuenta'}
+                {loading ? t.register_buttonLoading : t.register_button}
               </Text>
             </TouchableOpacity>
 
@@ -109,7 +111,8 @@ export function RegisterScreen({ navigation }: Props) {
               onPress={() => navigation.navigate('Login')}
             >
               <Text style={styles.linkText}>
-                ¿Ya tienes cuenta? <Text style={styles.linkTextBold}>Inicia sesión</Text>
+                {t.register_hasAccount}{' '}
+                <Text style={styles.linkTextBold}>{t.register_loginLink}</Text>
               </Text>
             </TouchableOpacity>
           </View>
