@@ -22,8 +22,10 @@
       "favicon": "./assets/favicon.png"
     },
     "owner": "plateo",
-    "plugins": [
-      "expo-image"
-    ]
+    "extra": {
+      "eas": {
+        "projectId": "8cedca3c-3339-4966-b7eb-a2e497aa2f38"
+      }
+    }
   }
 }
