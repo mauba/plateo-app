@@ -9,7 +9,7 @@ export type AuthStackParamList = {
 };
 
 export type MainTabParamList = {
-  Home: undefined;
+  RecipeSearch: undefined;
   MealPlan: undefined;
   ShoppingList: undefined;
   Profile: undefined;

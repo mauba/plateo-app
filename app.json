@@ -21,6 +21,9 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "owner": "plateo"
+    "owner": "plateo",
+    "plugins": [
+      "expo-image"
+    ]
   }
 }

@@ -1,6 +1,6 @@
 export { LoginScreen } from './LoginScreen';
 export { RegisterScreen } from './RegisterScreen';
-export { HomeScreen } from './HomeScreen';
+export { RecipeSearchScreen } from './RecipeSearchScreen';
 export { MealPlanScreen } from './MealPlanScreen';
 export { ShoppingListScreen } from './ShoppingListScreen';
 export { ProfileScreen } from './ProfileScreen';

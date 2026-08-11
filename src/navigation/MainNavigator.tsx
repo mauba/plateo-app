@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HomeScreen, MealPlanScreen, ShoppingListScreen, ProfileScreen } from '../screens';
+import { RecipeSearchScreen, MealPlanScreen, ShoppingListScreen, ProfileScreen } from '../screens';
 import { MainTabParamList } from '../types/navigation';
 import { colors } from '../constants/theme';
 import { useLocale } from '../i18n';
@@ -21,11 +21,11 @@ export function MainNavigator() {
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
+        name="RecipeSearch"
+        component={RecipeSearchScreen}
         options={{
-          title: t.nav_home,
-          tabBarLabel: t.nav_home,
+          title: t.nav_recipes,
+          tabBarLabel: t.nav_recipes,
         }}
       />
       <Tab.Screen

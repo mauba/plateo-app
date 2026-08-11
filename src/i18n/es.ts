@@ -7,6 +7,7 @@ export const es: Translations = {
 
   // navigation
   nav_home: 'Inicio',
+  nav_recipes: 'Recetas',
   nav_mealPlan: 'Plan',
   nav_shopping: 'Compras',
   nav_profile: 'Perfil',
@@ -15,6 +16,12 @@ export const es: Translations = {
   home_greeting: '¡Bienvenido a Plateo!',
   home_subtitle: 'Tu asistente de planificación de comidas',
   home_placeholder: 'Aquí verás tus próximas comidas y sugerencias personalizadas',
+
+  // recipe search
+  recipes_searchPlaceholder: 'Buscar recetas...',
+  recipes_hint: 'Busca cualquier receta',
+  recipes_noResults: 'No se encontraron recetas',
+  recipes_errorMessage: 'No se pudieron cargar las recetas. Inténtalo de nuevo.',
 
   // meal plan
   mealPlan_title: 'Plan de Comidas',

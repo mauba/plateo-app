@@ -5,6 +5,7 @@ export const en = {
 
   // navigation
   nav_home: 'Home',
+  nav_recipes: 'Recipes',
   nav_mealPlan: 'Plan',
   nav_shopping: 'Shopping',
   nav_profile: 'Profile',
@@ -13,6 +14,12 @@ export const en = {
   home_greeting: 'Welcome to Plateo!',
   home_subtitle: 'Your smart meal planning assistant',
   home_placeholder: "Here you'll see your upcoming meals and personalised suggestions",
+
+  // recipe search
+  recipes_searchPlaceholder: 'Search recipes...',
+  recipes_hint: 'Search for any recipe',
+  recipes_noResults: 'No recipes found',
+  recipes_errorMessage: 'Could not load recipes. Please try again.',
 
   // meal plan
   mealPlan_title: 'Meal Plan',
