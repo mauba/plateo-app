@@ -1,95 +1,275 @@
-# Plateo - Project Roadmap
+# Plateo - Product Roadmap
 
-## Project Overview
+## Product Vision
 
-**Plateo** is a meal planning app that helps individuals and families plan weekly/monthly menus, generate shopping lists, and maintain nutritional balance.
+**Plateo creates a personalized weekly meal plan and automatically generates the grocery list.**
 
-### Tech Stack
+### MVP answers these questions in under 60 seconds
+
+- What are we eating this week?
+- How long will it take to cook?
+- What do I need to buy?
+
+Everything else can come later.
+
+---
+
+## Tech Stack
+
 | Layer | Technology |
 |-------|------------|
-| Mobile | React Native + Expo + TypeScript |
-| Backend | Supabase (Postgres, Auth, Edge Functions) |
-| Nutrition Data | Spoonacular API |
+| Mobile | Expo + TypeScript |
+| Backend | Supabase (authentication, PostgreSQL, storage, serverless functions) |
+| Navigation | React Navigation |
+| Server state | TanStack Query (API/data fetching) |
+| Client state | Zustand (local app state) |
+| Payments | RevenueCat (premium tier) |
 | Deployment | Expo EAS |
+
+### Spoonacular rule
+
+No screen in the app depends on Spoonacular being online.
+
+Every recipe that enters Plateo is copied into Supabase and becomes an internal object. The app queries Supabase only. Spoonacular is a one-time import tool, not a runtime dependency. This keeps costs low, improves performance, and makes Spoonacular replaceable without rebuilding the app.
 
 ### Cost Structure (scales with users)
 - **Supabase**: Free up to 500MB DB, 50K MAU → $25/mo at scale
-- **Spoonacular**: Free 150 req/day → $29/mo for 1,500 req/day
+- **Spoonacular**: Free 150 req/day → used for initial seeding only, not runtime calls
 
 ---
 
-## Completed (2026-07-04)
+## Month 1: Build the core product
 
-### Session 2: i18n & Environment
-- [x] Linked app to Plateo Expo organisation
-- [x] Set up Supabase project and wired `.env` credentials
-- [x] Verified registration and login flow in simulator
-- [x] Added runtime language switching (EN/ES) via custom `LocaleProvider` + `useLocale()` hook
-- [x] All UI strings extracted to `src/i18n/en.ts` (canonical) and `src/i18n/es.ts` (translation)
-- [x] Language preference persisted in SecureStore across app restarts
+### Week 1: Foundation
 
-## Completed (2025-07-01)
+**Deliverables**
+- [x] App setup (Expo + React Native + TypeScript)
+- [x] Authentication (email)
+- [x] Basic navigation (Auth stack ↔ Main tabs)
+- [x] User profile screen
+- [x] i18n (EN/ES with runtime switching)
 
-### Session 1: Project Setup
-- [x] Chose React Native + Expo over Flutter (TypeScript talent pool, code reuse potential)
-- [x] Created Expo project with TypeScript template
-- [x] Installed dependencies: Supabase, React Navigation, Secure Store
-- [x] Set up folder structure (`src/screens`, `src/navigation`, `src/services`, etc.)
-- [x] Implemented auth screens (Login, Register) with Supabase integration
-- [x] Created placeholder screens (Home, MealPlan, ShoppingList, Profile)
-- [x] Set up navigation (Auth stack ↔ Main tabs based on session)
-- [x] Applied Plateo branding (green `#22c55e`, Spanish UI)
-- [x] Initialized git repository
-- [x] Pushed to GitHub: https://github.com/mauba/plateo-app
+### Week 2: Data model
+
+Design the database before building AI features.
+
+| Table | Purpose |
+|-------|---------|
+| users | User profile |
+| households | Family/group |
+| recipes | Recipe metadata |
+| ingredients | Ingredient catalog |
+| recipe_ingredients | Recipe composition |
+| meal_plans | Weekly plans |
+| meal_plan_items | Breakfast/lunch/dinner assignments |
+| shopping_lists | Generated grocery list |
+
+Recipe fields to keep simple: name, servings, prep time, cook time, difficulty, calories, protein/carbs/fat, cuisine, tags.
+
+- [ ] Design and create Supabase schema
+- [ ] Set up TanStack Query
+- [ ] Set up Zustand
+
+### Week 3: Recipe library
+
+Do not start with AI-generated recipes. Seed the app with 100–200 curated recipes.
+
+Categories to cover:
+- 15-minute meals
+- Family dinners
+- Vegetarian
+- High-protein
+- Pasta
+- Rice dishes
+- Chicken
+- Fish
+- Soups
+- Salads
+
+- [ ] Build Supabase importer: pull ~500 Mediterranean and family-friendly recipes from Spoonacular in one weekend, store in Supabase
+- [ ] Recipe search screen querying Supabase (not Spoonacular at runtime)
+- [ ] Recipe detail view
+
+**Current progress**
+- [x] Spoonacular runtime search screen (temporary — will be replaced once Supabase recipe table exists)
+- [ ] Supabase importer script
+- [ ] Migrate search to query Supabase
+- [ ] Recipe detail view (ingredients, instructions, nutrition)
+- [ ] Search filters (diet type, cuisine, max time)
+
+### Week 4: Weekly planner
+
+Build the main screen.
+
+```
+Week of Aug 17
+
+Monday     Chicken stir-fry
+Tuesday    Lentil soup
+Wednesday  Salmon with vegetables
+Thursday   Pasta carbonara
+Friday     Homemade burgers
+```
+
+Allow:
+- Regenerate a meal
+- Swap meals
+- Mark favourite recipes
+
+- [ ] Weekly calendar view
+- [ ] Add/swap/remove meals per day
+- [ ] Persist meal plans per user (Supabase)
 
 ---
 
-## Next Steps
+## Month 2: Make it useful
 
-### Phase 1: Environment Setup (Week 1-2)
-- [x] Create Supabase project at https://supabase.com
-- [x] Copy URL and anon key to `.env` file
-- [x] Run app locally with `pnpm start` and test on phone via Expo Go
-- [x] Test registration and login flow
-- [ ] Enable email confirmation in Supabase (optional for dev)
-- [ ] Fix confirmation email redirect URL — Supabase is configured with `http://localhost:3000` as the redirect, which is invalid for a mobile app. Needs a deep link URL scheme (e.g. `plateo://auth/confirm`) configured in both Supabase (Authentication → URL Configuration) and the Expo app (`app.json` scheme).
+### Week 5: Grocery list generation
 
-### Phase 2: Recipe Search (Week 3-5)
-- [x] Sign up for Spoonacular API at https://spoonacular.com/food-api
-- [ ] Create recipe search screen
-- [ ] Display recipe cards with image, title, nutrition summary
-- [ ] Add recipe detail view (ingredients, instructions, nutrition)
-- [ ] Implement search filters (diet type, cuisine, max time)
+This is the first "wow" feature.
 
-### Phase 3: Meal Planning (Week 6-9)
-- [ ] Design database schema for meal plans (Supabase)
-- [ ] Create weekly calendar view
-- [ ] Allow adding recipes to specific days/meals
-- [ ] Save meal plans per user
-- [ ] Generate meal plan suggestions via Spoonacular API
+Aggregate ingredients across all recipes in the week's plan.
 
-### Phase 4: Shopping List (Week 10-12)
+```
+Shopping list
+
+Vegetables       Protein
+2 onions         800 g chicken breast
+3 carrots        300 g salmon
+1 kg tomatoes
+```
+
+Allow users to check items off.
+
 - [ ] Auto-generate shopping list from meal plan
-- [ ] Group ingredients by category (produce, dairy, etc.)
-- [ ] Allow manual additions and check-off
+- [ ] Group by category (produce, protein, dairy…)
+- [ ] Check-off items
 - [ ] Persist list in Supabase
 
-### Phase 5: Polish & Deploy (Week 13-16)
-- [ ] Add onboarding flow (dietary preferences, household size)
-- [ ] Implement push notifications for meal reminders
-- [ ] App icons and splash screen
-- [ ] Build with Expo EAS
-- [ ] Submit to App Store and Google Play
+### Week 6: Preferences
+
+Ask during onboarding:
+- Household size
+- Children? (yes/no)
+- Vegetarian?
+- High-protein?
+- Budget-conscious?
+- Max cooking time
+- Favourite cuisines
+
+Store and use to filter recipes.
+
+- [ ] Onboarding flow
+- [ ] Preference storage in Supabase
+- [ ] Recipe filtering by preferences
+
+### Week 7: AI meal planner
+
+Now add AI. Use GPT through a Supabase Edge Function.
+
+Prompt example:
+> Create a 7-day dinner plan for a family of 4 with two children, max 30 minutes cooking time, Mediterranean cuisine, high protein, and avoid repeating the same main ingredient twice in a row.
+
+**The AI must choose from the recipe database — not invent recipes.**
+
+- [ ] Supabase Edge Function wrapping GPT
+- [ ] "Generate my week" button
+- [ ] AI-driven plan filtered by user preferences
+
+### Week 8: Notifications
+
+Simple reminders:
+- "Tomorrow's dinner: Salmon with vegetables"
+- "You're missing ingredients for tonight"
+
+- [ ] Push notifications (Expo)
+- [ ] Daily dinner reminder
+- [ ] Missing-ingredient alert
 
 ---
 
-## Future Ideas (Post-MVP)
-- Family sharing (multiple users, one household)
-- Pantry tracking (what you already have)
-- Recipe favorites and history
-- WhatsApp/email delivery of weekly plans
-- Integration with grocery delivery services
-- Budget tracking per meal plan
+## Month 3: Make people pay
+
+### Week 9: Polish
+
+- [ ] Loading states
+- [ ] Empty states
+- [ ] Icons and animations
+- [ ] Typography
+- [ ] Onboarding flow refinement
+
+A polished app often beats a feature-rich one.
+
+### Week 10: Premium tier
+
+**Free**
+- 1 meal plan per week
+- Limited recipe library
+
+**Premium (€4–8/month)**
+- Unlimited meal plans
+- AI personalisation
+- Nutrition targets
+- Export grocery list
+- Household sharing
+
+- [ ] Integrate RevenueCat
+- [ ] Gate premium features
+- [ ] Paywall screen
+
+### Week 11: Beta launch
+
+Recruit 20–50 real users. Ask families who cook regularly — not friends.
+
+Track:
+- Meal plans created
+- Grocery lists opened
+- Meals regenerated
+- Weekly retention
+
+- [ ] TestFlight / Google Play internal track
+- [ ] Analytics (meal plans created, grocery lists opened, retention)
+
+### Week 12: Iterate
+
+Interview users. Ask:
+- What did you expect?
+- What frustrated you?
+- When did you stop using it?
+- Would you pay? Why or why not?
+
+---
+
+## Screen Roadmap
+
+### MVP screens
+- [x] Login / Register
+- [ ] Onboarding
+- [ ] Weekly Plan (main screen)
+- [ ] Recipe Detail
+- [ ] Shopping List
+- [ ] Profile / Preferences
+
+### V2 screens
+- [ ] Pantry Inventory
+- [ ] Nutrition Dashboard
+- [ ] Calendar Sync
+- [ ] Meal Prep Mode
+- [ ] Household Collaboration
+- [ ] Voice Assistant
+
+---
+
+## The one feature to obsess over
+
+**Grocery list generation + meal-plan regeneration.**
+
+A user should be able to:
+1. Open the app.
+2. Tap "Generate my week."
+3. Tap "Send grocery list to my phone."
+
+That is a complete value loop. Everything else — calories, macros, AI coaching, pantry scanning, barcode scanning — comes later.
 
 ---
 
@@ -100,18 +280,23 @@ cd /Users/miquel.auba/VSCode-projects/plateo-app
 
 # 1. Create .env from template
 cp .env.example .env
-# Edit .env with your Supabase credentials
+# Edit .env with your Supabase and Spoonacular credentials
 
 # 2. Start dev server
 pnpm start
 
 # 3. Scan QR code with Expo Go app on your phone
+
+# Run tests
+pnpm test
 ```
 
 ---
 
 ## Related Resources
-- Landing page: `/Users/miquel.auba/CascadeProjects/plateo/`
+- GitHub: https://github.com/mauba/plateo-app
 - Supabase docs: https://supabase.com/docs
 - Spoonacular docs: https://spoonacular.com/food-api/docs
 - Expo docs: https://docs.expo.dev/versions/v57.0.0/
+- TanStack Query: https://tanstack.com/query/latest
+- RevenueCat: https://www.revenuecat.com/docs
