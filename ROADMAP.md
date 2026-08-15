@@ -7,10 +7,10 @@
 ### MVP answers these questions in under 60 seconds
 
 - What are we eating this week?
-- How long will it take to cook?
 - What do I need to buy?
 
 Everything else can come later.
+- How long will it take to cook? (later)
 
 ---
 
@@ -67,6 +67,7 @@ Design the database before building AI features.
 Recipe fields to keep simple: name, servings, prep time, cook time, difficulty, calories, protein/carbs/fat, cuisine, tags.
 
 - [ ] Design and create Supabase schema
+- [ ] Enable RLS (Row Level Security) Policy
 - [ ] Set up TanStack Query
 - [ ] Set up Zustand
 
