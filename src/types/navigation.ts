@@ -11,7 +11,7 @@ export type AuthStackParamList = {
 };
 
 export type RecipeStackParamList = {
-  RecipeSearch: undefined;
+  RecipeList: undefined;
   RecipeDetail: { recipe: Recipe };
 };
 

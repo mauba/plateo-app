@@ -6,7 +6,7 @@ import { useLocale } from '../i18n';
 import { searchRecipes, Recipe } from '../services/spoonacular';
 import type { RecipeStackParamList } from '../types/navigation';
 
-type Props = NativeStackScreenProps<RecipeStackParamList, 'RecipeSearch'>;
+type Props = NativeStackScreenProps<RecipeStackParamList, 'RecipeList'>;
 
 export function RecipeSearchScreen({ navigation }: Props) {
   const { t } = useLocale();

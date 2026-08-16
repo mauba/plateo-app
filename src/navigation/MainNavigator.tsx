@@ -27,7 +27,7 @@ function RecipeStackNavigator() {
       }}
     >
       <RecipeStack.Screen
-        name="RecipeSearch"
+        name="RecipeList"
         component={RecipeSearchScreen}
         options={{ title: t.nav_recipes }}
       />
