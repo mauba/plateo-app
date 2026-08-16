@@ -1,10 +1,14 @@
 import { useState } from 'react';
-import { View, Text, TextInput, FlatList, ActivityIndicator, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, FlatList, ActivityIndicator, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { colors, spacing, fontSize } from '../constants/theme';
 import { useLocale } from '../i18n';
 import { searchRecipes, Recipe } from '../services/spoonacular';
+import type { RecipeStackParamList } from '../types/navigation';
 
-export function RecipeSearchScreen() {
+type Props = NativeStackScreenProps<RecipeStackParamList, 'RecipeSearch'>;
+
+export function RecipeSearchScreen({ navigation }: Props) {
   const { t } = useLocale();
   const [query, setQuery] = useState('');
   const [submittedQuery, setSubmittedQuery] = useState('');
@@ -31,27 +35,17 @@ export function RecipeSearchScreen() {
     }
   }
 
-  function renderContent() {
+  function renderEmpty() {
     if (loading) {
       return <ActivityIndicator size="large" color={colors.primary} style={styles.centered} />;
     }
     if (error) {
       return <Text style={styles.centeredText}>{error}</Text>;
     }
-    if (submittedQuery && recipes.length === 0) {
+    if (submittedQuery) {
       return <Text style={styles.centeredText}>{t.recipes_noResults}</Text>;
     }
-    if (!submittedQuery) {
-      return <Text style={styles.hint}>{t.recipes_hint}</Text>;
-    }
-    return (
-      <FlatList
-        data={recipes}
-        keyExtractor={item => String(item.id)}
-        renderItem={({ item }) => <RecipeCard recipe={item} />}
-        contentContainerStyle={styles.list}
-      />
-    );
+    return <Text style={styles.hint}>{t.recipes_hint}</Text>;
   }
 
   return (
@@ -65,14 +59,23 @@ export function RecipeSearchScreen() {
         returnKeyType="search"
         onSubmitEditing={handleSearch}
       />
-      {renderContent()}
+      <FlatList
+        data={recipes}
+        keyExtractor={item => String(item.id)}
+        renderItem={({ item }) => (
+          <RecipeCard recipe={item} onPress={() => navigation.navigate('RecipeDetail', { recipe: item })} />
+        )}
+        ListEmptyComponent={renderEmpty}
+        style={styles.list}
+        contentContainerStyle={styles.listContent}
+      />
     </View>
   );
 }
 
-function RecipeCard({ recipe }: { recipe: Recipe }) {
+function RecipeCard({ recipe, onPress }: { recipe: Recipe; onPress: () => void }) {
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.8}>
       <Image source={{ uri: recipe.image }} style={styles.cardImage} />
       <View style={styles.cardBody}>
         <Text style={styles.cardTitle} numberOfLines={2}>{recipe.title}</Text>
@@ -80,7 +83,7 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
           <Text style={styles.cardCalories}>{Math.round(recipe.calories)} kcal</Text>
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -115,6 +118,9 @@ const styles = StyleSheet.create({
     fontSize: fontSize.md,
   },
   list: {
+    flex: 1,
+  },
+  listContent: {
     gap: spacing.md,
   },
   card: {

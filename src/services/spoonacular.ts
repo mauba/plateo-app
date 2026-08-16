@@ -8,6 +8,17 @@ export type Recipe = {
   calories?: number;
 };
 
+export type RecipeDetails = {
+  id: number;
+  title: string;
+  image: string;
+  readyInMinutes: number;
+  servings: number;
+  extendedIngredients: { id: number; original: string }[];
+  analyzedInstructions: { name: string; steps: { number: number; step: string }[] }[];
+  calories?: number;
+};
+
 type NutritionNutrient = {
   name: string;
   amount: number;
@@ -25,6 +36,17 @@ type SpoonacularResult = {
 
 type SearchResponse = {
   results: SpoonacularResult[];
+};
+
+type RecipeInfoResponse = {
+  id: number;
+  title: string;
+  image: string;
+  readyInMinutes: number;
+  servings: number;
+  extendedIngredients: { id: number; original: string }[];
+  analyzedInstructions: { name: string; steps: { number: number; step: string }[] }[];
+  nutrition?: { nutrients: NutritionNutrient[] };
 };
 
 export async function searchRecipes(query: string): Promise<Recipe[]> {
@@ -48,4 +70,29 @@ export async function searchRecipes(query: string): Promise<Recipe[]> {
     image: r.image,
     calories: r.nutrition?.nutrients.find(n => n.name === 'Calories')?.amount,
   }));
+}
+
+export async function getRecipeDetails(id: number): Promise<RecipeDetails> {
+  const params = new URLSearchParams({
+    includeNutrition: 'true',
+    apiKey: API_KEY,
+  });
+
+  const response = await fetch(`${BASE_URL}/recipes/${id}/information?${params}`);
+  if (!response.ok) {
+    throw new Error(`Spoonacular error: ${response.status}`);
+  }
+
+  const data: RecipeInfoResponse = await response.json();
+
+  return {
+    id: data.id,
+    title: data.title,
+    image: data.image,
+    readyInMinutes: data.readyInMinutes,
+    servings: data.servings,
+    extendedIngredients: data.extendedIngredients,
+    analyzedInstructions: data.analyzedInstructions,
+    calories: data.nutrition?.nutrients.find(n => n.name === 'Calories')?.amount,
+  };
 }

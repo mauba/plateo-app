@@ -1,17 +1,42 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
-import { RecipeSearchScreen, MealPlanScreen, ShoppingListScreen, ProfileScreen } from '../screens';
-import { MainTabParamList } from '../types/navigation';
+import { RecipeSearchScreen, RecipeDetailScreen, MealPlanScreen, ShoppingListScreen, ProfileScreen } from '../screens';
+import { MainTabParamList, RecipeStackParamList } from '../types/navigation';
 import { colors } from '../constants/theme';
 import { useLocale } from '../i18n';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
+const RecipeStack = createNativeStackNavigator<RecipeStackParamList>();
 
 type IoniconName = React.ComponentProps<typeof Ionicons>['name'];
 
 function tabIcon(name: IoniconName, outlineName: IoniconName) {
   return ({ color, size, focused }: { color: string; size: number; focused: boolean }) => (
     <Ionicons name={focused ? name : outlineName} size={size} color={color} />
+  );
+}
+
+function RecipeStackNavigator() {
+  const { t } = useLocale();
+  return (
+    <RecipeStack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: colors.background },
+        headerTintColor: colors.text,
+      }}
+    >
+      <RecipeStack.Screen
+        name="RecipeSearch"
+        component={RecipeSearchScreen}
+        options={{ title: t.nav_recipes }}
+      />
+      <RecipeStack.Screen
+        name="RecipeDetail"
+        component={RecipeDetailScreen}
+        options={({ route }) => ({ title: route.params.recipe.title })}
+      />
+    </RecipeStack.Navigator>
   );
 }
 
@@ -31,9 +56,9 @@ export function MainNavigator() {
     >
       <Tab.Screen
         name="RecipeSearch"
-        component={RecipeSearchScreen}
+        component={RecipeStackNavigator}
         options={{
-          title: t.nav_recipes,
+          headerShown: false,
           tabBarLabel: t.nav_recipes,
           tabBarIcon: tabIcon('restaurant', 'restaurant-outline'),
         }}

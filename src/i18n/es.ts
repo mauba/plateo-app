@@ -23,6 +23,14 @@ export const es: Translations = {
   recipes_noResults: 'No se encontraron recetas',
   recipes_errorMessage: 'No se pudieron cargar las recetas. Inténtalo de nuevo.',
 
+  // recipe detail
+  recipeDetail_errorMessage: 'No se pudieron cargar los detalles. Inténtalo de nuevo.',
+  recipeDetail_ingredients: 'Ingredientes',
+  recipeDetail_instructions: 'Instrucciones',
+  recipeDetail_calories: 'kcal',
+  recipeDetail_readyIn: 'min',
+  recipeDetail_servings: 'porciones',
+
   // meal plan
   mealPlan_title: 'Plan de Comidas',
   mealPlan_placeholder: 'Aquí podrás ver y editar tu plan de comidas semanal',

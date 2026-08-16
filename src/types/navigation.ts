@@ -1,3 +1,5 @@
+import type { Recipe } from '../services/spoonacular';
+
 export type RootStackParamList = {
   Auth: undefined;
   Main: undefined;
@@ -6,6 +8,11 @@ export type RootStackParamList = {
 export type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
+};
+
+export type RecipeStackParamList = {
+  RecipeSearch: undefined;
+  RecipeDetail: { recipe: Recipe };
 };
 
 export type MainTabParamList = {

@@ -21,6 +21,14 @@ export const en = {
   recipes_noResults: 'No recipes found',
   recipes_errorMessage: 'Could not load recipes. Please try again.',
 
+  // recipe detail
+  recipeDetail_errorMessage: 'Could not load recipe details. Please try again.',
+  recipeDetail_ingredients: 'Ingredients',
+  recipeDetail_instructions: 'Instructions',
+  recipeDetail_calories: 'kcal',
+  recipeDetail_readyIn: 'min',
+  recipeDetail_servings: 'servings',
+
   // meal plan
   mealPlan_title: 'Meal Plan',
   mealPlan_placeholder: 'Here you can view and edit your weekly meal plan',
