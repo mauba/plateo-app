@@ -66,8 +66,8 @@ Design the database before building AI features.
 
 Recipe fields to keep simple: name, servings, prep time, cook time, difficulty, calories, protein/carbs/fat, cuisine, tags.
 
-- [ ] Design and create Supabase schema
-- [ ] Enable RLS (Row Level Security) Policy
+- [x] Design and create Supabase schema
+- [x] Enable RLS (Row Level Security) Policy
 - [ ] Set up TanStack Query
 - [ ] Set up Zustand
 
