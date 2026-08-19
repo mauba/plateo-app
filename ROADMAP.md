@@ -68,8 +68,8 @@ Recipe fields to keep simple: name, servings, prep time, cook time, difficulty, 
 
 - [x] Design and create Supabase schema
 - [x] Enable RLS (Row Level Security) Policy
-- [ ] Set up TanStack Query
-- [ ] Set up Zustand
+- [x] Set up TanStack Query
+- [x] Set up Zustand
 
 ### Week 3: Recipe library
 
